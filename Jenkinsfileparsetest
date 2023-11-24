@@ -1,11 +1,20 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage ('Parse CSV') {
-            steps{
+
+    stages {
+        stage('Parse CSV') {
+            steps {
                 script {
-                def csvContent = readFile(file.csv)
-                echo ("CSV Content is": ${csvContent})
+                    // Define the path to your CSV file
+                    def csvFilePath = "file.csv"
+
+                    // Read the CSV file
+                    def csvData = readCSV file: csvFilePath
+
+                    // Print the parsed data
+                    csvData.each { row ->
+                        echo "Row: ${row}"
+                    }
                 }
             }
         }
