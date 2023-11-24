@@ -1,0 +1,11 @@
+pipeline{
+    agent any
+    stages{
+        stage{
+            step{
+                def csvContent = readFile(file.csv)
+                echo ("CSV Content is": ${csvContent})
+            }
+        }
+    }
+}
