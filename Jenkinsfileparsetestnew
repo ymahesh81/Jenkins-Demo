@@ -11,7 +11,7 @@ pipeline {
 
                     // Read the CSV file
                     def csvData = readCSV file: csvFilePath
-                    def rows = file.csvData().tail()*.split(',')
+                    //def rows = file.csvData().tail()*.split(',')
 
                     // Print the parsed data
                     csvData.each { row ->
