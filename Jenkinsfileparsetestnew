@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Parse CSV') {
+            steps {
+                script {
+                    // Define the path to your CSV file
+                    def csvFilePath = "file.csv"
+                    
+
+                    // Read the CSV file
+                    def csvData = readCSV file: csvFilePath
+                    def rows = file.csvData().tail()*.split(',')
+
+                    // Print the parsed data
+                    csvData.each { row ->
+                        echo "Row: ${row}"
+                    }
+                }
+            }
+        }
+    }
+}
