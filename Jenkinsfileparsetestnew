@@ -15,7 +15,8 @@ pipeline {
 
                     // Print the parsed data
                     csvData.each { row ->
-                        echo "Row: ${row}"
+                        //echo "Row: ${row}"
+                        echo "Row:${row.join(',')}"
                     }
                 }
             }
