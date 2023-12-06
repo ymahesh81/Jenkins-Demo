@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Define the path to your CSV file
-                    def csvFilePath = "${workspace}/path/to/your/file.csv"
+                    def csvFilePath = "file.csv"
 
                     // Read the CSV file using the readFile step
                     def csvFileContent = readFile csvFilePath
