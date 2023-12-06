@@ -28,6 +28,8 @@ pipeline {
                         
                         // Your pipeline steps here
                         echo "Processing ${columnName}: ${row[index]}"
+                        echo "DEBUG - Header: ${header}"
+                        echo "DEBUG - Row: ${row}"
                     }
                 }
             }
@@ -36,8 +38,7 @@ pipeline {
         stage('Example Build') {
             steps {
                 script {
-                    echo "DEBUG - Header: ${header}"
-                    echo "DEBUG - Row: ${row}"
+
 
                     // Access the environment variables set in the previous stage
                     echo "Environment Variable A: ${env.A_VALUE}"
