@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Define the path to your CSV file
-                    def csvFilePath = "file.csv"
+                    def csvFilePath = "${workspace}/path/to/your/file.csv"
 
                     // Read the CSV file using the readFile step
                     def csvFileContent = readFile csvFilePath
@@ -23,11 +23,11 @@ pipeline {
 
                     // Iterate through the header and row to set environment variables
                     header.eachWithIndex { columnName, index ->
-                        // Set environment variable for each column
-                        withEnv(["${columnName.toUpperCase()}_VALUE=${row[index]}"]) {
-                            // Your pipeline steps here
-                            echo "Processing ${columnName}: ${row[index]}"
-                        }
+                        // Set environment variable for a specific column
+                        env."${columnName.toUpperCase()}_VALUE" = row[index]
+                        
+                        // Your pipeline steps here
+                        echo "Processing ${columnName}: ${row[index]}"
                     }
                 }
             }
