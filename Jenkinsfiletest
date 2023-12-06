@@ -41,8 +41,8 @@ pipeline {
 
 
                     // Access the environment variables set in the previous stage
-                    echo "Environment Variable A: ${env.A_VALUE}"
-                    echo "Environment Variable B: ${env.B_VALUE}"
+                    //echo "Environment Variable A: ${env.A_VALUE}"
+                    echo "Environment Variable B: ${row}"
                     // Add more as needed
                 }
             }
