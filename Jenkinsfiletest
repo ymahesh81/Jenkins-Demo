@@ -8,9 +8,11 @@ pipeline {
                     // Define the path to your CSV file
                     def csvFilePath = "file.csv"
 
-                    // Read the CSV file
-                    def csvFile = new File(csvFilePath)
-                    def lines = csvFile.readLines()
+                    // Read the CSV file using the readFile step
+                    def csvFileContent = readFile csvFilePath
+
+                    // Split the content into lines
+                    def lines = csvFileContent.split('\n')
 
                     // Assuming the first row of the CSV contains the header
                     def header = lines[0].tokenize(',')
