@@ -1,27 +1,44 @@
 pipeline {
     agent any
-    stages{
 
-        stage('Parse the CSV') {
-                steps {
-                    script {
+    stages {
+        stage('Parse CSV and Set Env') {
+            steps {
+                script {
+                    // Define the path to your CSV file
+                    def csvFilePath = "file.csv"
 
+                    // Read and parse the CSV file
+                    def csvData = csvRead file: csvFilePath, separator: ','
 
-                    readFile("file.csv").eachLine { line, count ->
-                        def fields = line.split(',')
-                        for(String item: fields) {
-                            println item
-                            println ' you are parsing line : ' + count
-                            }
-                            nodes["line${count}"] = {
-                                node {
-                                    echo fields[0] + ': ' + fields[1] + ': ' + fields[2] + ': ' + fields[3] + ': ' + fields[4];
-                                }
-                            }
-            }
-            }
+                    // Assuming the first row of the CSV contains the header
+                    def header = csvData[0]
 
+                    // Choose a row index to use as environment variables (e.g., index 1)
+                    def rowIndex = 1
+                    def row = csvData[rowIndex]
+
+                    // Iterate through the header and row to set environment variables
+                    header.eachWithIndex { columnName, index ->
+                        // Set environment variable for each column
+                        withEnv(["${columnName.toUpperCase()}_VALUE=${row[index]}"]) {
+                            // Your pipeline steps here
+                            echo "Processing ${columnName}: ${row[index]}"
+                        }
                     }
-}
-}
+                }
+            }
+        }
+
+        stage('Example Build') {
+            steps {
+                script {
+                    // Access the environment variables set in the previous stage
+                    echo "Environment Variable A: ${env.A_VALUE}"
+                    echo "Environment Variable B: ${env.B_VALUE}"
+                    // Add more as needed
+                }
+            }
+        }
+    }
 }
