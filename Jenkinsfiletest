@@ -12,39 +12,34 @@ pipeline {
                     def csvFileContent = readFile csvFilePath
 
                     // Split the content into lines
-                    def lines = csvFileContent.split('\n')
+                    def lines = csvFileContent.readLines()
 
                     // Assuming the first row of the CSV contains the header
                     def header = lines[0].tokenize(',')
 
-                    // Choose a row index to use as environment variables (e.g., index 1)
-                    def rowIndex = 1
-                    def row = lines[rowIndex].tokenize(',')
-
-                    // Iterate through the header and row to set environment variables
-                    header.eachWithIndex { columnName, index ->
-                        // Set environment variable for a specific column
-                        env."${columnName.toUpperCase()}_VALUE" = row[index]
+                    // Iterate through each row (starting from index 1)
+                    for (def rowIndex = 1; rowIndex < lines.size(); rowIndex++) {
+                        def row = lines[rowIndex].tokenize(',')
                         
-                        // Your pipeline steps here
-                        echo "Processing ${columnName}: ${row[index]}"
-                        echo "DEBUG - Header: ${header}"
-                        echo "DEBUG - Row: ${row}"
-                        echo "Environment Variable A: ${row[index]}"
+                        // Iterate through the header and row to set environment variables
+                        header.eachWithIndex { columnName, index ->
+                            // Set environment variable for a specific column
+                            env."${columnName.toUpperCase()}_VALUE_${rowIndex}" = row[index]
+                            
+                            // Your pipeline steps here
+                            echo "Processing ${columnName}: ${row[index]} for row ${rowIndex}"
+                        }
                     }
                 }
-                echo "Environment Variable A: ${env.A_VALUE}"
             }
         }
 
         stage('Example Build') {
             steps {
                 script {
-
-
                     // Access the environment variables set in the previous stage
-                    echo "Environment Variable A: ${env.A_VALUE}"
-                    echo "Environment Variable B: ${env.B_VALUE}"
+                    echo "Environment Variable A (Row 1): ${env.A_VALUE_1}"
+                    echo "Environment Variable A (Row 2): ${env.A_VALUE_2}"
                     // Add more as needed
                 }
             }
