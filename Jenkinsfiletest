@@ -30,7 +30,7 @@ pipeline {
                         echo "Processing ${columnName}: ${row[index]}"
                         echo "DEBUG - Header: ${header}"
                         echo "DEBUG - Row: ${row}"
-                        echo "Environment Variable A: ${env.A_VALUE}
+                        echo "Environment Variable A: ${env.A_VALUE}"
                     }
                 }
             }
