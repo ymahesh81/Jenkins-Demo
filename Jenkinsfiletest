@@ -30,7 +30,6 @@ pipeline {
                         echo "Processing ${columnName}: ${row[index]}"
                         echo "DEBUG - Header: ${header}"
                         echo "DEBUG - Row: ${row}"
-                        //echo "Environment Variable A: ${env.A_VALUE}"
                     }
                 }
             }
@@ -42,8 +41,8 @@ pipeline {
 
 
                     // Access the environment variables set in the previous stage
-                    //echo "Environment Variable A: ${env.A_VALUE}"
-                    echo "Environment Variable B: ${row}"
+                    echo "Environment Variable A: ${env.A_VALUE}"
+                    echo "Environment Variable B: ${env.B_VALUE}"
                     // Add more as needed
                 }
             }
