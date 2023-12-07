@@ -11,16 +11,18 @@ pipeline {
             steps {
                 script {
                     def accounts = readCSV file: env.CSV_FILE_PATH, delimiter: ',' // Specify delimiter if needed
-                    for (account in accounts) {
-                        def accountNumber = account.AccountNumber
-                        withAWS(region: env.AWS_DEFAULT_REGION, credentials: "awstflab", roleAccount: "$accountNumber") {
-                            echo "Listing S3 buckets for AWS account: $accountNumber"
+                    accounts.each { row -> 
+                    //for (account in accounts) {
+                        //def accountNumber = account.AccountNumber
+                        withAWS(region: env.AWS_DEFAULT_REGION, credentials: "awstflab", roleAccount: ${row}) {
+                            echo "Listing S3 buckets for AWS account: ${row}"
                             //sh "aws s3 ls s3:// --profile $accountNumber" // Use AWS CLI to list buckets
                             sh "aws s3 ls"
                         }
+                    }
                     }
                 }
             }
         }
     }
-}
+
