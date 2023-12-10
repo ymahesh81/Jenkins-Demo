@@ -28,7 +28,8 @@ pipeline {
                             
                             // Your pipeline steps here
                             echo "Processing ${columnName}: ${row[index]} for row ${rowIndex}"
-                            //echo "Environment Variable A (Row 1): ${env.A_VALUE_1}"
+                            
+                            echo "Environment Variable A (Row 1): ${row[index]}"
                             //echo "Environment Variable A (Row 2): ${env.A_VALUE_2}"                            
                         }
                     }
