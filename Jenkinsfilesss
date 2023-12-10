@@ -13,7 +13,7 @@ pipeline {
                     def accounts = readCSV file: env.CSV_FILE_PATH, delimiter: ',' // Specify delimiter if needed
                     for (account in accounts) {
                         def accountNumber = account[0] // Assuming 'AccountNumber' is the first column in your CSV
-                        withAWS(region: env.AWS_DEFAULT_REGION, credentials: "aws-credentials-id") {
+                        withAWS(region: env.AWS_DEFAULT_REGION, credentials: "awstflab") {
                             echo "Listing S3 buckets for AWS account: $accountNumber"
                             sh "aws s3 ls s3:// --profile $accountNumber" // Use AWS CLI to list buckets
                         }
