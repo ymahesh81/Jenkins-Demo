@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         AWS_DEFAULT_REGION = 'ap-south-1' // Specify the AWS region
-        CSV_FILE_PATH = 'file.csv' // Path to your CSV file
+        CSV_FILE_PATH = 'accounts.csv' // Path to your CSV file
     }
 
     stages {
@@ -11,20 +11,15 @@ pipeline {
             steps {
                 script {
                     def accounts = readCSV file: env.CSV_FILE_PATH, delimiter: ',' // Specify delimiter if needed
-                    //accounts.each { row -> 
                     for (account in accounts) {
-                        def accountNumber = account.AccountNumber
-                        withAWS(region: env.AWS_DEFAULT_REGION, credentials: "awstflab", roleAccount: accountNumber) {
-                            echo "Listing S3 buckets for AWS account: ${row}"
-                            //sh "aws s3 ls s3:// --profile $accountNumber" // Use AWS CLI to list buckets
-                            script{
-                            sh "aws s3 ls"
-                            }
+                        def accountNumber = account[0] // Assuming 'AccountNumber' is the first column in your CSV
+                        withAWS(region: env.AWS_DEFAULT_REGION, credentials: "aws-credentials-id") {
+                            echo "Listing S3 buckets for AWS account: $accountNumber"
+                            sh "aws s3 ls s3:// --profile $accountNumber" // Use AWS CLI to list buckets
                         }
-                    }
                     }
                 }
             }
         }
     }
-
+}
